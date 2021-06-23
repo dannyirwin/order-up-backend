@@ -1,4 +1,5 @@
 class GamesController < ApplicationController
+
     def index
         games = Game.all
         render json: games
@@ -25,6 +26,7 @@ class GamesController < ApplicationController
     def show
         render json: Game.all.find(params[:id])
     end
+
 
     private
     def game_params
