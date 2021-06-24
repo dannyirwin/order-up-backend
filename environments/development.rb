@@ -1,4 +1,4 @@
-require "active_support/core_ext/integer/time"
+ frequire "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -50,6 +50,8 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # From https://stackoverflow.com/questions/35188892/request-origin-not-allowed-http-localhost3001-when-using-rails5-and-actionca
+  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:3001']
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
