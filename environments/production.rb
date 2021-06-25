@@ -97,6 +97,7 @@ Rails.application.configure do
 
   #From https://blog.heroku.com/real_time_rails_implementing_websockets_in_rails_5_with_action_cable
   config.web_socket_server_url = "wss://hidden-shelf-2044.herokuapp.com/cable" 
+  config.action_cable.url = 'redis://redistogo:e0c7393f8149559c8583e3a1edb38a80@hammerjaw.redistogo.com:9478/'
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
