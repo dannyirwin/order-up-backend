@@ -94,7 +94,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   #From https://blog.heroku.com/real_time_rails_implementing_websockets_in_rails_5_with_action_cable
-  config.web_socket_server_url = "ws://hidden-shelf-2044/cable" 
+  config.web_socket_server_url = "wss://hidden-shelf-2044.herokuapp.com/cable" 
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
