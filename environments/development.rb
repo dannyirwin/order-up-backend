@@ -51,7 +51,7 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # From https://stackoverflow.com/questions/35188892/request-origin-not-allowed-http-localhost3001-when-using-rails5-and-actionca
-  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002']
+  config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002']
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
