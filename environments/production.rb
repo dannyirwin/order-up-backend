@@ -60,7 +60,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
    # From https://stackoverflow.com/questions/35188892/request-origin-not-allowed-http-localhost3001-when-using-rails5-and-actionca
-  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002', 'https://dannyirwin.github.io/order-up-frontend/' ]
+  
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -96,6 +96,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   #From https://blog.heroku.com/real_time_rails_implementing_websockets_in_rails_5_with_action_cable
+<<<<<<< HEAD
    config.web_socket_server_url = "wss://hidden-shelf-2044.herokuapp.com/cable" 
   config.action_cable.url = 'redis://redistogo:e0c7393f8149559c8583e3a1edb38a80@hammerjaw.redistogo.com:9478/'
   config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002', 'https://dannyirwin.github.io', /http:\/\/*/, /https:\/\/*/, /file:\/\/*/, 'file://', nil ]
