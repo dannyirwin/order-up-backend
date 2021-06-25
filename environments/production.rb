@@ -58,7 +58,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
    # From https://stackoverflow.com/questions/35188892/request-origin-not-allowed-http-localhost3001-when-using-rails5-and-actionca
-  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002']
+  Rails.application.config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002', 'https://dannyirwin.github.io/order-up-frontend/' ]
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -92,6 +92,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  #From https://blog.heroku.com/real_time_rails_implementing_websockets_in_rails_5_with_action_cable
+  config.web_socket_server_url = "ws://hidden-shelf-2044/cable" 
 
   # Inserts middleware to perform automatic connection switching.
   # The `database_selector` hash is used to pass options to the DatabaseSelector
