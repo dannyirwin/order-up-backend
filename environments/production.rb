@@ -92,7 +92,7 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  # Do not dump schema after migrations.
+  # Do not dump schema after migrations
   config.active_record.dump_schema_after_migration = false
 
   #From https://blog.heroku.com/real_time_rails_implementing_websockets_in_rails_5_with_action_cable
