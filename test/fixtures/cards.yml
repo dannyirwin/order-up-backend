@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  color: 1
+  fill: 1
+  shape: 1
+  count: 1
+
+two:
+  color: 1
+  fill: 1
+  shape: 1
+  count: 1
