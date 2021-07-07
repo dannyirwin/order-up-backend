@@ -12,8 +12,7 @@ class Game < ApplicationRecord
 
     def fill_board
         12.times do |i|
-            game_card = game_cards[i]
-            game_card.update({board_index: i})
+            game_cards[i].update({board_index: i})
         end
     end
 
@@ -27,6 +26,13 @@ class Game < ApplicationRecord
     #         end
     #     end
     # end
+
+    def remove_cards_from_game cards
+        arr = []
+        cards.each do |card|
+            game_cards.find_by(card_id: card[:id]).destroy
+        end
+    end
 
     def generate_deck
         all_cards = Card.all
@@ -44,28 +50,29 @@ class Game < ApplicationRecord
         key
     end
 
-    def self.isSet? card1, card2, card3
-        attributes = card1.keys
+    def self.isSet? cards
+        card1, card2, card3 = cards
+        attributes = ["color","fill","shape","count"]
         attributes.each do |atr|
-            if card1[atr] == card2[atr] and card1[atr] != card3[atr]
+            if (card1[atr] == card2[atr] and card1[atr] != card3[atr])
                 return false
             end
-            if card1[atr] != card2[atr] and card1[atr] == card3[atr]
+            if (card1[atr] != card2[atr] and card1[atr] == card3[atr])
                 return false
             end
-            if card2[atr] == card1[atr] and card2[atr] != card3[atr]
+            if (card2[atr] == card1[atr] and card2[atr] != card3[atr])
                 return false
             end
-            if card2[atr] != card1[atr] and card2[atr] == card3[atr]
+            if (card2[atr] != card1[atr] and card2[atr] == card3[atr])
                 return false
             end
-            if card3[atr] == card1[atr] and card3[atr] != card2[atr]
+            if (card3[atr] == card1[atr] and card3[atr] != card2[atr])
                 return false
             end
-            if card3[atr] != card1[atr] and card3[atr] == card2[atr]
+            if (card3[atr] != card1[atr] and card3[atr] == card2[atr])
                 return false
             end
         end
-        return true
+        true
     end
 end

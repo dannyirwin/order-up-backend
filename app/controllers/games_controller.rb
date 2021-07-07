@@ -11,7 +11,7 @@ class GamesController < ApplicationController
         game.fill_board
         if game.save
             # ActionCable.server.broadcast 'games_channel', game
-            render json: game, include: [:board]
+            render json: game, methods: [:board]
         else
             render json: game.errors.full_messages
         end
@@ -19,14 +19,15 @@ class GamesController < ApplicationController
 
     def update
         cards = params[:cards]
-        if Game.isSet? cards[0], cards[1], cards[2]
-            
-            render json: @game
+        if Game.isSet? cards
+            @game.remove_cards_from_game(cards)
+            # ActionCable.server.broadcast 'games_channel', game
+            render json: @game, methods: :board
         else 
             render json: {message: "nope"}
         end
         
-        # ActionCable.server.broadcast 'games_channel', game
+
     end
 
     def show
