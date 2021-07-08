@@ -11,21 +11,25 @@ class Game < ApplicationRecord
     end
 
     def fill_board
-        12.times do |i|
-            game_cards[i].update({board_index: i})
+        if board.length == 0
+            12.times do |i|
+                game_cards[i].update({board_index: i - 1})
+            end
+        elsif board.length == 12
+            board.each do |card, i|
+                game_card = game_cards.find_by(card_id: card[:id])
+                game_card.update({board_index: i})
+            end
+        elsif board.length < 12
+            used_board_indecies = game_cards.filter{|gc| gc.board_index}.map(&:board_index)
+            12.times do |i|
+                if !used_board_indecies.include?(i - 1)
+                    unused_game_card = game_cards.find{|gc| !gc.board_index}
+                    unused_game_card.update({board_index: i - 1})
+                end
+            end
         end
     end
-
-    # def update_board
-    #     unused_cards = game_cards.filter{|gc| !gc.board_index}
-    #     if board.length < 12
-    #         for i in 1..12
-    #             # if !board[i].board_index
-    #             #     unused_cards.first.board_index = i
-    #             # end
-    #         end
-    #     end
-    # end
 
     def remove_cards_from_game cards
         arr = []

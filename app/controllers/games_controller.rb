@@ -10,8 +10,8 @@ class GamesController < ApplicationController
         game.generate_deck
         game.fill_board
         if game.save
-            # ActionCable.server.broadcast 'games_channel', game
             render json: game, methods: [:board]
+            # ActionCable.server.broadcast 'games_channel', game
         else
             render json: game.errors.full_messages
         end
@@ -21,17 +21,19 @@ class GamesController < ApplicationController
         cards = params[:cards]
         if Game.isSet? cards
             @game.remove_cards_from_game(cards)
+            @game.fill_board
             # ActionCable.server.broadcast 'games_channel', game
             render json: @game, methods: :board
         else 
-            render json: {message: "nope"}
+            render json: {message: "Not a valid Order."}
         end
         
 
     end
 
     def show
-        render json: @game, methods: [:board]
+
+        render json: @game, methods: [:fill_board, :board]
     end
 
     def destroy
