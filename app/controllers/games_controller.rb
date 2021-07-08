@@ -18,17 +18,25 @@ class GamesController < ApplicationController
     end
 
     def update
-        cards = params[:cards]
-        if Game.isSet? cards
-            @game.remove_cards_from_game(cards)
-            @game.fill_board
-            # ActionCable.server.broadcast 'games_channel', game
-            render json: @game, methods: :board
-        else 
-            render json: {message: "Not a valid Order."}
+        if params[:cards]
+            cards = params[:cards]
+            if Game.isSet? cards
+                @game.remove_cards_from_game(cards)
+                @game.fill_board
+                # ActionCable.server.broadcast 'games_channel', game
+                render json: @game, methods: :board
+            else 
+                render json: {message: "Not a valid Order."}
+            end
+        elsif params[:method]
+            case params[:method]
+            when "add_cards"
+                @game.add_cards
+                render json: @game, methods: :board
+            else
+                render json: {message: params}
+            end   
         end
-        
-
     end
 
     def show

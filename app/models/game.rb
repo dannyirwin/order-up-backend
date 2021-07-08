@@ -31,6 +31,15 @@ class Game < ApplicationRecord
         end
     end
 
+    def add_cards
+        if board.length == 12
+            3.times do |i|
+                unused_game_card = game_cards.find{|gc| !gc.board_index}
+                unused_game_card.update({board_index: i + 11})
+            end
+        end
+    end
+
     def remove_cards_from_game cards
         arr = []
         cards.each do |card|
