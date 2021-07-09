@@ -7,45 +7,62 @@ class Game < ApplicationRecord
     end
 
     def board
-        game_cards.filter{|gc| gc.board_index}.map(&:card)
+        used_game_cards.map(&:card)
+    end
+
+    def used_game_cards 
+        game_cards.filter{|gc| gc.on_board}.sort_by(&:id)
     end
 
     def fill_board
-        if board.length == 0
-            12.times do |i|
-                game_cards[i].update({board_index: i - 1})
-            end
-        elsif board.length == 12
-            board.each do |card, i|
-                game_card = game_cards.find_by(card_id: card[:id])
-                game_card.update({board_index: i})
-            end
-        elsif board.length < 12
-            if !(game_cards.length < 12)
-                used_board_indecies = game_cards.filter{|gc| gc.board_index}.map(&:board_index)
-                12.times do |i|
-                    if !used_board_indecies.include?(i - 1)
-                        unused_game_card = game_cards.find{|gc| !gc.board_index}
-                        unused_game_card.update({board_index: i - 1})
-                    end
-                end
+        if used_game_cards.length < 12 && unused_game_cards.length != 0
+            n = 12 - used_game_cards.length
+            n.times do
+                first_unused_game_card.update({on_board: true})
             end
         end
+        # if board.length == 0
+        #     12.times do |i|
+        #         game_cards[i].update({board_index: i - 1})
+        #     end
+        # elsif used_game_cards.length == 12
+        #     used_game_cards.each do |gc, i|
+        #         gc.update({board_index: i})
+        #     end
+        # elsif board.length < 12
+        #     if !(game_cards.length < 12)
+        #         used_board_indecies = game_cards.filter{|gc| gc.board_index}.map(&:board_index)
+        #         12.times do |i|
+        #             if !used_board_indecies.include?(i - 1)
+        #                 first_unused_game_card.update({board_index: i - 1})
+        #             end
+        #         end
+        #     end
+        # end
     end
 
     def add_cards
-        if board.length == 12
+        if used_game_cards.length < 15 && unused_game_cards.length != 0
             3.times do |i|
-                unused_game_card = game_cards.find{|gc| !gc.board_index}
-                unused_game_card.update({board_index: i + 11})
+                first_unused_game_card.update({on_board: true})
             end
         end
     end
 
+    def first_unused_game_card
+        game_cards.find{|gc| !gc.on_board}
+    end
+
+    def unused_game_cards
+        game_cards.filter{|gc| !gc.on_board}
+    end
+
     def remove_cards_from_game cards
-        puts cards
         cards.each do |card|
-            game_cards.find_by(card_id: card[:id]).destroy
+            card = game_cards.find_by(card_id: card[:id])
+            if card
+                card.destroy
+            end
         end
     end
 

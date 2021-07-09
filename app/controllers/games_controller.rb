@@ -11,7 +11,7 @@ class GamesController < ApplicationController
         game.fill_board
         if game.save
             render json: game, methods: [:board]
-            ActionCable.server.broadcast 'games_channel', game
+            # GamesChannel.broadcast_to game, game
         else
             render json: game.errors.full_messages
         end
@@ -23,12 +23,13 @@ class GamesController < ApplicationController
             if Game.isSet? cards
                 @game.remove_cards_from_game(cards)
                 @game.fill_board
-                ActionCable.server.broadcast 'games_channel', {
+                @game.board                
+                GamesChannel.broadcast_to @game, {
                     id: @game.id,
                     board: @game.board,
                     key: @game.key
                 }
-                render json: {message: "Cards Removed"}
+                render json: {message: "Cards Removed", board: @game.board}
             else 
                 render json: {message: "Not a valid Order."}
             end
@@ -36,12 +37,12 @@ class GamesController < ApplicationController
             case params[:method]
             when "add_cards"
                 @game.add_cards
-                ActionCable.server.broadcast 'games_channel', {
+                GamesChannel.broadcast_to @game, {
                     id: @game.id,
                     board: @game.board,
                     key: @game.key
                 }
-                render json:{message: "Cards Added"}
+                render json:{message: "Cards Added",board: @game.board}
             else
                 render json: {message: params}
             end   

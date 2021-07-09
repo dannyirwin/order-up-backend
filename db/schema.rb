@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2021_07_07_172921) do
   create_table "game_cards", force: :cascade do |t|
     t.bigint "game_id", null: false
     t.bigint "card_id", null: false
-    t.integer "board_index"
+    t.boolean "on_board", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["card_id"], name: "index_game_cards_on_card_id"
