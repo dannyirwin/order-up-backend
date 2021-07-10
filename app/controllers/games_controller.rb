@@ -43,8 +43,11 @@ class GamesController < ApplicationController
                     key: @game.key
                 }
                 render json:{message: "Cards Added",board: @game.board}
+            when "start_game"
+                @game.update({state: "Game in progress"})
+                @game.broadcastGame
             else
-                render json: {message: params}
+                render json: {message: "Invalid Method: " + params[:method]}
             end   
         end
     end

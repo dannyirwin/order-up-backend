@@ -21,24 +21,15 @@ class Game < ApplicationRecord
                 first_unused_game_card.update({on_board: true})
             end
         end
-        # if board.length == 0
-        #     12.times do |i|
-        #         game_cards[i].update({board_index: i - 1})
-        #     end
-        # elsif used_game_cards.length == 12
-        #     used_game_cards.each do |gc, i|
-        #         gc.update({board_index: i})
-        #     end
-        # elsif board.length < 12
-        #     if !(game_cards.length < 12)
-        #         used_board_indecies = game_cards.filter{|gc| gc.board_index}.map(&:board_index)
-        #         12.times do |i|
-        #             if !used_board_indecies.include?(i - 1)
-        #                 first_unused_game_card.update({board_index: i - 1})
-        #             end
-        #         end
-        #     end
-        # end
+    end
+
+    def broadcastGame
+            GamesChannel.broadcast_to self, {
+                id: self.id,
+                board: self.board,
+                key: self.key,
+                state: self.state
+                }
     end
 
     def add_cards
