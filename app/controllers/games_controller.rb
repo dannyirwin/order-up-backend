@@ -11,37 +11,27 @@ class GamesController < ApplicationController
         game.fill_board
         if game.save
             render json: game
-            # GamesChannel.broadcast_to game, game
         else
             render json: game.errors.full_messages
         end
     end
 
     def update
-        if params[:cards]
-            cards = params[:cards]
-            if Game.isSet? cards
-                @game.remove_cards_from_game(cards)
-                @game.fill_board
-                @game.board                
-                GamesChannel.broadcast_to @game, {
-                    id: @game.id,
-                    board: @game.board,
-                    key: @game.key
-                }
-                render json: {message: "Cards Removed", board: @game.board}
-            else 
-                render json: {message: "Not a valid Order."}
-            end
-        elsif params[:method]
             case params[:method]
+            when "check_set"
+                cards = params[:cards]
+                if Game.isSet? cards
+                    @game.remove_cards_from_game(cards)
+                    @game.fill_board
+                    @game.board                
+                    @game.broadcastGame
+                    render json: {message: "Cards Removed", board: @game.board}
+                else 
+                    render json: {message: "Not a valid Order."}
+                end
             when "add_cards"
                 @game.add_cards
-                GamesChannel.broadcast_to @game, {
-                    id: @game.id,
-                    board: @game.board,
-                    key: @game.key
-                }
+                @game.broadcastGame
                 render json:{message: "Cards Added",board: @game.board}
             when "start_game"
                 @game.update({state: "Game in progress"})
@@ -49,7 +39,6 @@ class GamesController < ApplicationController
             else
                 render json: {message: "Invalid Method: " + params[:method]}
             end   
-        end
     end
 
     def show
