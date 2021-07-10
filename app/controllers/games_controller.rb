@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
     before_action :find_game, only: [:show, :update, :destroy]
     def index
-        games = Game.all
+        games = Game.all.map{|game| game.game_data}
         render json: games
     end
 
@@ -43,7 +43,8 @@ class GamesController < ApplicationController
 
     def show
         @game.fill_board
-        render json: @game, methods: [:board]
+        @game.check_for_game_over
+        render json: @game.game_data
     end
 
     def destroy

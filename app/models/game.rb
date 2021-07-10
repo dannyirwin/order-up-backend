@@ -2,10 +2,6 @@ class Game < ApplicationRecord
     has_many :game_cards, dependent: :destroy
     has_many :cards, through: :game_cards
 
-    def deck
-        game_cards.map(&:card)
-    end
-
     def board
         used_game_cards.map(&:card)
     end
@@ -15,36 +11,43 @@ class Game < ApplicationRecord
     end
 
     def fill_board
-        if used_game_cards.length < 12 && unused_game_cards.length != 0
+        if used_game_cards.length < 12 && deck.length != 0
             n = 12 - used_game_cards.length
             n.times do
-                first_unused_game_card.update({on_board: true})
+                first_in_deck.update({on_board: true})
             end
         end
     end
 
     def broadcastGame
-            GamesChannel.broadcast_to self, {
-                id: self.id,
-                board: self.board,
-                key: self.key,
-                state: self.state
-                }
+        check_for_game_over
+            GamesChannel.broadcast_to self, self.game_data
     end
 
+    def game_data
+        {
+            id: self.id,
+            board: self.board,
+            key: self.key,
+            state: self.state,
+            deckLength: deck.length
+
+        }
+        end
+
     def add_cards
-        if used_game_cards.length < 15 && unused_game_cards.length != 0
+        if used_game_cards.length < 15 && deck.length != 0
             3.times do |i|
-                first_unused_game_card.update({on_board: true})
+                first_in_deck.update({on_board: true})
             end
         end
     end
 
-    def first_unused_game_card
+    def first_in_deck
         game_cards.find{|gc| !gc.on_board}
     end
 
-    def unused_game_cards
+    def deck
         game_cards.filter{|gc| !gc.on_board}
     end
 
@@ -61,6 +64,28 @@ class Game < ApplicationRecord
         all_cards = Card.all
         all_cards.shuffle.each do |card|
             GameCard.create card: card, game: self
+        end
+    end
+
+    def boardContainsSet
+        (0...board.length).each{|i|
+            card1 = board[i]
+            ((i+1)...board.length).each{|j|
+                card2 = board[j]
+                ((j+1)...board.length).each{|k|
+                    card3 = board[k]
+                    if Game.isSet? [card1, card2, card3]
+                        return true
+                    end
+                }
+            }
+        }
+        return false;
+    end
+
+    def check_for_game_over
+        if deck.length == 0 && !boardContainsSet
+            self.update({state: "Game Over"})
         end
     end
 
