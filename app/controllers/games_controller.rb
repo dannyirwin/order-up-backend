@@ -10,7 +10,7 @@ class GamesController < ApplicationController
         game.generate_deck
         game.fill_board
         if game.save
-            render json: game, methods: [:board]
+            render json: game
             # GamesChannel.broadcast_to game, game
         else
             render json: game.errors.full_messages
