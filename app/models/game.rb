@@ -23,7 +23,10 @@ class Game < ApplicationRecord
 
     def broadcastGame
         check_for_game_over
-            GamesChannel.broadcast_to self, game_data
+        GamesChannel.broadcast_to self, game_data
+        if state == "Game Over"
+            self.destroy
+        end
     end
 
     def game_data
