@@ -6,7 +6,7 @@ class GamesController < ApplicationController
     end
 
     def create
-        game = Game.new key: Game.generate_key
+        game = Game.new key: Game.generate_key, is_private: params[:is_private]
         game.generate_deck
         game.fill_board
         if game.save

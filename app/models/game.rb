@@ -32,7 +32,8 @@ class Game < ApplicationRecord
             key: self.key,
             state: self.state,
             deckLength: deck.length,
-            users: users
+            users: users,
+            private: self.is_private
 
         }
         end

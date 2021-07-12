@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_07_11_201448) do
     t.string "key"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "private", default: false
+    t.boolean "is_private", default: false
     t.string "state", default: "Waiting for Players"
   end
 
