@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_11_201448) do
+ActiveRecord::Schema.define(version: 2021_07_12_200111) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(version: 2021_07_11_201448) do
     t.string "state", default: "Waiting for Players"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.bigint "user_id", null: false
+    t.string "content"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_messages_on_game_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.bigint "game_id", null: false
@@ -55,5 +65,7 @@ ActiveRecord::Schema.define(version: 2021_07_11_201448) do
 
   add_foreign_key "game_cards", "cards"
   add_foreign_key "game_cards", "games"
+  add_foreign_key "messages", "games"
+  add_foreign_key "messages", "users"
   add_foreign_key "users", "games"
 end

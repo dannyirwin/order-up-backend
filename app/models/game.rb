@@ -2,6 +2,7 @@ class Game < ApplicationRecord
     has_many :game_cards, dependent: :destroy
     has_many :cards, through: :game_cards
 
+    has_many :messages, dependent: :destroy
     has_many :users, dependent: :destroy
     def board
         used_game_cards.map(&:card)
@@ -22,18 +23,19 @@ class Game < ApplicationRecord
 
     def broadcastGame
         check_for_game_over
-            GamesChannel.broadcast_to self, self.game_data
+            GamesChannel.broadcast_to self, game_data
     end
 
     def game_data
         {
-            id: self.id,
-            board: self.board,
-            key: self.key,
-            state: self.state,
+            id: id,
+            board: board,
+            key: key,
+            state: state,
             deckLength: deck.length,
             users: users,
-            private: self.is_private
+            private: is_private,
+            messages: messages.map(&:message_data)
 
         }
         end
