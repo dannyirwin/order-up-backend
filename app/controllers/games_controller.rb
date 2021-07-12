@@ -21,11 +21,13 @@ class GamesController < ApplicationController
             when "check_set"
                 cards = params[:cards]
                 if Game.isSet? cards
+                    user = @game.users.find(params[:user_id])
+                    user.add_point
                     @game.remove_cards_from_game(cards)
                     @game.fill_board
                     @game.board                
                     @game.broadcastGame
-                    render json: {message: "Cards Removed", board: @game.board}
+                    render json: {message: "Cards Removed", user: user}
                 else 
                     render json: {message: "Not a valid Order."}
                 end
