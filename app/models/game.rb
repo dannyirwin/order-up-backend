@@ -2,6 +2,7 @@ class Game < ApplicationRecord
     has_many :game_cards, dependent: :destroy
     has_many :cards, through: :game_cards
 
+    has_many :users, dependent: :destroy
     def board
         used_game_cards.map(&:card)
     end
@@ -30,7 +31,8 @@ class Game < ApplicationRecord
             board: self.board,
             key: self.key,
             state: self.state,
-            deckLength: deck.length
+            deckLength: deck.length,
+            users: users
 
         }
         end
