@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
-  resources :messages
-  resources :users
-  resources :game_cards
-  resources :cards
+  resources :messages, only: [:create]
+  resources :users, only: [:index, :create]
   resources :games
-
   
   root  'games_controller#index' 
   mount ActionCable.server => '/cable'

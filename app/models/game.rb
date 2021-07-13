@@ -4,6 +4,7 @@ class Game < ApplicationRecord
 
     has_many :messages, dependent: :destroy
     has_many :users, dependent: :destroy
+    
     def board
         used_game_cards.map(&:card)
     end

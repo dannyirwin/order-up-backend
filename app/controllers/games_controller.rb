@@ -17,30 +17,30 @@ class GamesController < ApplicationController
     end
 
     def update
-            case params[:method]
-            when "check_set"
-                cards = params[:cards]
-                if Game.isSet? cards
-                    user = @game.users.find(params[:user_id])
-                    user.add_point
-                    @game.remove_cards_from_game(cards)
-                    @game.fill_board
-                    @game.board                
-                    @game.broadcastGame
-                    render json: {message: "Cards Removed", user: user}
-                else 
-                    render json: {message: "Not a valid Order."}
-                end
-            when "add_cards"
-                @game.add_cards
+        case params[:method]
+        when "check_set"
+            cards = params[:cards]
+            if Game.isSet? cards
+                user = @game.users.find(params[:user_id])
+                user.add_point
+                @game.remove_cards_from_game(cards)
+                @game.fill_board
+                @game.board                
                 @game.broadcastGame
-                render json:{message: "Cards Added",board: @game.board}
-            when "start_game"
-                @game.update({state: "Game in progress"})
-                @game.broadcastGame
-            else
-                render json: {message: "Invalid Method: " + params[:method]}
-            end   
+                render json: {message: "Cards Removed", user: user}
+            else 
+                render json: {message: "Not a valid Order."}
+            end
+        when "add_cards"
+            @game.add_cards
+            @game.broadcastGame
+            render json:{message: "Cards Added",board: @game.board}
+        when "start_game"
+            @game.update({state: "Game in progress"})
+            @game.broadcastGame
+        else
+            render json: {message: "Invalid Method: " + params[:method]}
+        end   
     end
 
     def show
