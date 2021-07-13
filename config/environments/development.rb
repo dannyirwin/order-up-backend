@@ -61,8 +61,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.web_socket_server_url = "wss://localhost:3000/cable" 
-  #config.action_cable.url = 'redis://redistogo:e0c7393f8149559c8583e3a1edb38a80@hammerjaw.redistogo.com:9478/'
+  # config.web_socket_server_url = "wss://localhost:3000/cable" 
+  config.action_cable.url = 'redis://redistogo:e0c7393f8149559c8583e3a1edb38a80@hammerjaw.redistogo.com:9478/'
   config.action_cable.allowed_request_origins = ['https://dannyirwin.github.io', /http:\/\/*/, /https:\/\/*/]
   config.action_cable.disable_request_forgery_protection = true
 
