@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  username: MyString
+  password: MyString
+  total_points: 1
+  total_games: 1
+
+two:
+  username: MyString
+  password: MyString
+  total_points: 1
+  total_games: 1

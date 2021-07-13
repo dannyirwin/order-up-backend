@@ -93,7 +93,7 @@ Rails.application.configure do
 
    config.web_socket_server_url = "wss://hidden-shelf-2044.herokuapp.com/cable" 
   config.action_cable.url = 'redis://redistogo:e0c7393f8149559c8583e3a1edb38a80@hammerjaw.redistogo.com:9478/'
-  config.action_cable.allowed_request_origins = ['http://localhost:3000','http://localhost:3001','http://localhost:3002', 'https://dannyirwin.github.io', /http:\/\/*/, /https:\/\/*/, /file:\/\/*/, 'file://', nil ]
+  config.action_cable.allowed_request_origins = ['https://dannyirwin.github.io']
   config.action_cable.disable_request_forgery_protection = true
 
   # Inserts middleware to perform automatic connection switching.
