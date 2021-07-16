@@ -1,5 +1,7 @@
 # Order Up!
 
+[You can play Order Up right now!](https://dannyirwin.github.io/order-up-frontend/)
+
 Find the patterns and play with friends online! This is the front end of a
 project to go with
 [this fronted.](https://github.com/dannyirwin/order-up-frontend)
@@ -13,11 +15,11 @@ Color, Fill/Shading, Number of items, and Item Type. A valid order consists of 3
 cards where each attribute across the cards is either all teh same or all
 different.
 
-This is the first full backend I've built and it incorporates ActionCable to
-support live online multiplayer via websockets.
+This project began as an introduction project to web sockets. It is a full
+featured multiplayer card game with in-game chat, avatar customization, and
+matchmaking.
 
-<img src="./src/images/ValidExamples.png" alt="Valid Examples" height="300px"><img
-src="./src/images/InvalidExamples.png" alt="Invalid Examples" height="300px">
+The individual games are all run completely on the back end.
 
 ## Technologies
 
@@ -26,70 +28,12 @@ src="./src/images/InvalidExamples.png" alt="Invalid Examples" height="300px">
 
 ## Features
 
-- Full game cycle: Games persist over multiple sessions, can start new games,
-  and handles all logic required to play.
-- Online multiplayer updates across all users games when changes are made
-- Colorblind Mode for accessability.
-- Unique username generated for each user.
-
-## Code Snippets
-
-This is the code is used to generate and shuffle new decks of cards.
-
-```javascript
-const generateNewDeck = () => {
-  const deck = [];
-  const shapes = ['shape-1', 'shape-2', 'shape-3'];
-  const colors = ['color-1', 'color-2', 'color-3'];
-  const counts = [1, 2, 3];
-  const fills = ['fill-1', 'fill-2', 'fill-3'];
-  let cardId = 1;
-  shapes.forEach(shape => {
-    colors.forEach(color => {
-      counts.forEach(count => {
-        fills.forEach(fill => {
-          [
-            ...deck,
-            {
-              id: cardId,
-              color: color,
-              count: count,
-              shape: shape,
-              fill: fill
-            }
-          ];
-          cardId++;
-        });
-      });
-    });
-  });
-  return deck;
-};
-
-const shuffleDeck = deck => {
-  var currentIndex = deck.length,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [deck[currentIndex], deck[randomIndex]] = [
-      deck[randomIndex],
-      deck[currentIndex]
-    ];
-  }
-  return deck;
-};
-```
-
-## Feature Wishlist
-
-- While the app is currently deployed on Heroku, the there are still problems
-  upgrading to websockets
-- User Sign-in and authentication
-- User can host a new game with a unique ID or us and ID to specify which game
-  to join.
-- In-game text chat.
-- Store long term game data for leaderboards etc.
+- Full online multiplayer experience: Games update in real time.
+- Matchmaking: Users can host a public or private game or join one in a game
+  lobby from available games or using a unique code.
+- In game text chat and live score keeping.
+- Practice mode is single player and has a never-ending deck of cards.
+- Avatar customization.
 
 ## Reach out
 
